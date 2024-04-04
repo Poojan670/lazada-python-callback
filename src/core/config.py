@@ -32,6 +32,7 @@ class Settings(BaseSettings):
     LAZADA_ROOT_URL: str = os.getenv("LAZADA_ROOT_URL")
     LAZADA_APP_KEY: str = os.getenv("LAZADA_APP_KEY")
     LAZADA_APP_SECRET: str = os.getenv("LAZADA_APP_SECRET")
+    LAZADA_CALLBACK_URI: str = os.getenv("LAZADA_CALLBACK_URI")
 
     @computed_field
     @property

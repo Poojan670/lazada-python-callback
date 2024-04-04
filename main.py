@@ -5,6 +5,7 @@ from typing import Any
 import emails
 from fastapi import FastAPI, HTTPException, Query
 from starlette.middleware.cors import CORSMiddleware
+from starlette.responses import RedirectResponse
 
 import lazop
 from src.core.config import settings
@@ -88,6 +89,16 @@ async def callback(code: str = Query(...)):
     if not code or code == "":
         raise HTTPException(status_code=400, detail="Missing code")
     return await get_access_token(code)
+
+
+@app.get("/")
+async def redirect_to_url():
+    target_url = f"https://auth.lazada.com/oauth/authorize?response_type=code&force_auth=true&redirect_uri={settings.LAZADA_CALLBACK_URI}&client_id={settings.LAZADA_APP_KEY}"
+
+    # Create a RedirectResponse with the target URL
+    response = RedirectResponse(url=target_url)
+
+    return response
 
 if __name__ == '__main__':
     import uvicorn
